@@ -19,7 +19,7 @@ const Search = ({ modal, setModal }) => {
     <>
       <Modal modal={modal} setModal={setModal}>
         <div
-          className={`absolute sm:relative right-4 left-4 top-[4rem] sm:left-0 sm:top-0 sm:w-[300px]
+          className={`absolute sm:relative right-4 left-4 top-[4rem] sm:left-0 sm:top-0 sm:cw-[300px]
           ${
             modal
               ? "visible opacity-100"
