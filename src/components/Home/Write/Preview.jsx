@@ -1,19 +1,20 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import ReactQuill from "react-quill";
 import TagsInput from "react-tagsinput";
-import { toast } from "react-toastify";
+import axios from 'axios';
+
 import { Blog } from "../../../Context/Context";
 import { useNavigate } from "react-router-dom";
 
-
-const Preview = ({ setPublish, description, title }) => {
+const Preview = () => {
+  const { setPublish, title,setTitle, description, setDescription,} = Blog();
   const imageRef = useRef(null);
   const [imageUrl, setImageUrl] = useState("");
   const [tags, setTags] = useState([]);
-  const [desc, setDesc] = useState("");
-  const { currentUser } = Blog();
-  const navigate = useNavigate();
+
+
   const [loading, setLoading] = useState(false);
 
   const [preview, setPreview] = useState({
@@ -21,52 +22,35 @@ const Preview = ({ setPublish, description, title }) => {
     photo: "",
   });
 
-  useEffect(() => {
-    if (title || description) {
-      setPreview({ ...preview, title: title });
-      setDesc(description);
-    } else {
-      setPreview({ ...preview, title: "" });
-      setDesc("");
-    }
-  }, [title, description]);
+ 
 
   const handleClick = () => {
     imageRef.current.click();
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    console.log("submitted")
     try {
-      if (preview.title === "" || desc === "" || tags.length === 0) {
-        toast.error("All fields are required!!!");
-        setLoading(false);
-        return;
-      }
+   
+      const postData = {
+        title:preview.title,
+        description,
+        imageUrl,
+        tags,
+      };
 
-      if (preview.title.length < 15) {
-        toast.error("Title must be at least 15 letters");
-        setLoading(false);
-        return;
-      }
+    
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-      // Simulate saving the post
-      setTimeout(() => {
-        toast.success("Post has been added");
-        navigate("/");
-        setPublish(false);
-        setPreview({
-          title: "",
-          photo: "",
-        });
-        setLoading(false);
-      }, 1000);
+      // Handle response
+      console.log('Post published successfully:', response.data);
+      setPublish(false); 
     } catch (error) {
-      toast.error("An error occurred");
-      setLoading(false);
+      console.error('Error publishing post:', error);
     }
-  
   };
 
   return (
@@ -77,22 +61,16 @@ const Preview = ({ setPublish, description, title }) => {
           className="absolute right-[1rem] md:right-[5rem] top-[3rem] text-2xl cursor-pointer">
           <LiaTimesSolid />
         </span>
-        {/* Preview the text */}
+        {/* preview the text  */}
         <div className="mt-[8rem] flex flex-col md:flex-row gap-10">
           <div className="flex-[1]">
             <h3>Story Preview</h3>
             <div
+              style={{ backgroundImage: `url(${imageUrl})` }}
               onClick={handleClick}
-              className="w-full h-[200px] bg-gray-100 my-3 grid place-items-center cursor-pointer relative">
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt="Preview"
-                  className="object-cover w-full h-full"
-                />
-              ) : (
-                <span className="text-gray-500">Add Image</span>
-              )}
+              className="w-full h-[200px] object-cover bg-gray-100 my-3 grid 
+                place-items-center cursor-pointer bg-cover bg-no-repeat ">
+              {!imageUrl && "Add Image"}
             </div>
             <input
               onChange={(e) => {
@@ -107,15 +85,17 @@ const Preview = ({ setPublish, description, title }) => {
               type="text"
               placeholder="Title"
               className="outline-none w-full border-b border-gray-300 py-2"
-              value={preview.title}
-              onChange={(e) =>
-                setPreview({ ...preview, title: e.target.value })
-              }
+              value={title}
+              onChange={(e) => {
+    const newTitle = e.target.value;
+    setPreview({ ...preview, title: newTitle });
+    setTitle(newTitle); // Update context title
+  }}
             />
             <ReactQuill
               theme="bubble"
-              value={desc}
-              onChange={setDesc}
+              value={description}
+              onChange={setDescription}
               placeholder="Tell Your Story..."
               className="py-3 border-b border-gray-300"
             />
@@ -128,7 +108,7 @@ const Preview = ({ setPublish, description, title }) => {
           <div className="flex-[1] flex flex-col gap-4 mb-5 md:mb-0">
             <h3 className="text-2xl">
               Publishing to:
-              <span className="font-bold capitalize">Rejina Blog</span>
+              <span className="font-bold capitalize">Milad Tech</span>
             </h3>
             <p>
               Add or change topics up to 5 so readers know what your story is

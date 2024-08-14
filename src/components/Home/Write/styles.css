@@ -3,3 +3,54 @@
     outline: none;
   }
   
+
+  /* General Styles */
+.WriteContainer {
+  font-family: sans-serif;
+  text-align: center;
+  display: block;
+}
+
+/* Title Input Styles */
+.TitleInput {
+  text-align: center;
+  font-size: 2rem;
+  outline: none;
+  width: 60%;
+  margin: 2rem auto;
+  display: block;
+}
+
+/* Editor Wrapper Styles */
+.EditorWrapper {
+  border: none !important;
+  width: 60% !important;
+  margin-top: 1rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Override default Draft.js styles */
+.Draftail-Toolbar {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Override default Draft.js styles */
+.Draftail-Editor {
+  border: none !important;
+  width: 100% !important;
+  margin-top: 100px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Override default Draft.js content styles */
+.public-DraftEditor-content {
+  font-family: Georgia, "Times New Roman", Times, serif !important;
+}
+
+/* Override default Draft.js placeholder styles */
+.public-DraftEditorPlaceholder-inner {
+  font-family: Georgia, "Times New Roman", Times, serif !important;
+}

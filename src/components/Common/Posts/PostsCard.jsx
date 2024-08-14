@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const PostsCard = ({ post }) => {
-  const { title, desc, created, postImg, postId, username } = post; 
+  const { title, description, photo, postId, username } = post;
 
   const navigate = useNavigate();
 
@@ -12,8 +12,7 @@ const PostsCard = ({ post }) => {
     <section>
       <div
         onClick={() => navigate(`/post/${postId}`)}
-        className="flex flex-col sm:flex-row gap-4 cursor-pointer"
-      >
+        className="flex flex-col sm:flex-row gap-4 cursor-pointer">
         <div className="flex-[2.5]">
           <p className="pb-2 font-semibold capitalize">{username}</p>
           <h2 className="text-xl font-bold line-clamp-2 leading-6 capitalize">
@@ -21,26 +20,22 @@ const PostsCard = ({ post }) => {
           </h2>
           <div
             className="py-1 text-gray-500 line-clamp-2 leading-5"
-            dangerouslySetInnerHTML={{ __html: desc }}
+            dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
-        {postImg && (
+        {photo && (
           <div className="flex-[1]">
             <img
-              src={postImg}
+              src={photo}
               alt="postImg"
               className="w-[53rem] h-[8rem] object-cover"
             />
           </div>
         )}
       </div>
-      {/* <div className="flex items-center justify-between w-full md:w-[70%] mt-[2rem] md:mt-0">
-        <p className="text-xs text-gray-600">
-          {readTime({ __html: desc })} min read . {moment(created).format("MMM DD")}
-        </p>
-      </div> */}
     </section>
   );
 };
+
 
 export default PostsCard;

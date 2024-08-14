@@ -11,12 +11,12 @@ const Context = ({ children }) => {
   const [showComment, setShowComment] = useState(false);
   const [commentLength, setCommentLength] = useState(0);
   const [authModel, setAuthModel] = useState(false);
-
   const [updateData, setUpdateData] = useState({});
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [publish, setPublish] = useState(false);
-
+  const [tags, setTags] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
 
   const { data: postData, loading: postLoading } = useFetch("posts");
 
@@ -51,7 +51,12 @@ const Context = ({ children }) => {
         postLoading,
         authModel,
         setAuthModel,
-      }}>
+        imageUrl,
+        setImageUrl,
+        tags,
+        setTags,
+      }}
+    >
       {loading ? <Loading /> : children}
     </BlogContext.Provider>
   );
