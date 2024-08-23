@@ -16,9 +16,10 @@ const Context = ({ children }) => {
   const [description, setDescription] = useState("");
   const [publish, setPublish] = useState(false);
   const [tags, setTags] = useState([]);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // Added to context
+  const [postData, setPostData] = useState([]);
 
-  const { data: postData, loading: postLoading } = useFetch("posts");
+  const { data, loading: postLoading } = useFetch("posts");
 
   useEffect(() => {
     const mockUsers = [
@@ -28,6 +29,16 @@ const Context = ({ children }) => {
     setAllUsers(mockUsers);
     setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setPostData(data);
+    }
+  }, [data]);
+
+  const addPost = (newPost) => {
+    setPostData((prevPosts) => [newPost, ...prevPosts]);
+  };
 
   return (
     <BlogContext.Provider
@@ -51,10 +62,11 @@ const Context = ({ children }) => {
         postLoading,
         authModel,
         setAuthModel,
-        imageUrl,
-        setImageUrl,
+        imageUrl,  // Provided in context
+        setImageUrl, // Provided in context
         tags,
         setTags,
+        addPost,
       }}
     >
       {loading ? <Loading /> : children}

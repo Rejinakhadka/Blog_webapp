@@ -1,20 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import moment from "moment/moment";
-
-
 const PostsCard = ({ post }) => {
-  const { title, description, photo, postId, username } = post;
+  const { title, description, imageUrl, id, user } = post; // Updated property names
+
+  console.log(post, "Post data in PostsCard");
 
   const navigate = useNavigate();
 
   return (
     <section>
       <div
-        onClick={() => navigate(`/post/${postId}`)}
-        className="flex flex-col sm:flex-row gap-4 cursor-pointer">
+        onClick={() => navigate(`/post/${id}`)}
+        className="flex flex-col sm:flex-row gap-4 cursor-pointer"
+      >
         <div className="flex-[2.5]">
-          <p className="pb-2 font-semibold capitalize">{username}</p>
+          <p className="pb-2 font-semibold capitalize">{user}</p>
           <h2 className="text-xl font-bold line-clamp-2 leading-6 capitalize">
             {title}
           </h2>
@@ -23,11 +23,11 @@ const PostsCard = ({ post }) => {
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
-        {photo && (
+        {imageUrl && (
           <div className="flex-[1]">
             <img
-              src={photo}
-              alt="postImg"
+              src={imageUrl}
+              alt="Post Image"
               className="w-[53rem] h-[8rem] object-cover"
             />
           </div>
@@ -36,6 +36,5 @@ const PostsCard = ({ post }) => {
     </section>
   );
 };
-
 
 export default PostsCard;

@@ -1,27 +1,31 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../Loading/Loading";
-import useFetch from "../../hooks/useFetch"; 
+import useFetch from "../../hooks/useFetch";
 
 const SinglePost = () => {
   const { postId } = useParams();
-  const { data, loading } = useFetch(); 
+  const { data, loading } = useFetch("posts");
   const navigate = useNavigate();
 
+  // Debugging: log fetched data and postId
+  console.log("Fetched data:", data);
+  console.log("Post ID from URL:", postId);
 
-  const post = data.find((item) => item.postId === parseInt(postId));
+  // Find the specific post
+  const post = data.find((item) => item.postId === parseInt(postId, 10));
 
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        post && (
+        post ? (
           <section className="w-[90%] md:w-[80%] lg:w-[60%] mx-auto py-[3rem]">
             <h2 className="text-4xl font-extrabold capitalize">{post.title}</h2>
             <div className="flex items-center gap-2 py-[2rem]">
               <img
-                onClick={() => navigate(`/profile/${post.userImg}`)} 
+                onClick={() => navigate(`/profile/${post.userImg}`)}
                 className="w-[3rem] h-[3rem] object-cover rounded-full cursor-pointer"
                 src={post.userImg}
                 alt="user-img"
@@ -41,10 +45,12 @@ const SinglePost = () => {
               )}
               <div
                 className="mt-6"
-                dangerouslySetInnerHTML={{ __html: post.desc }}
+                dangerouslySetInnerHTML={{ __html: post.description }}
               />
             </div>
           </section>
+        ) : (
+          <p>Post not found</p>
         )
       )}
     </>

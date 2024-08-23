@@ -1,55 +1,44 @@
-
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import ReactQuill from "react-quill";
 import TagsInput from "react-tagsinput";
 import axios from 'axios';
-
 import { Blog } from "../../../Context/Context";
-import { useNavigate } from "react-router-dom";
 
 const Preview = () => {
-  const { setPublish, title,setTitle, description, setDescription,} = Blog();
+  const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, setImageUrl, tags, setTags } = Blog();
   const imageRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState("");
-  const [tags, setTags] = useState([]);
-
-
   const [loading, setLoading] = useState(false);
-
-  const [preview, setPreview] = useState({
-    title: "",
-    photo: "",
-  });
-
- 
 
   const handleClick = () => {
     imageRef.current.click();
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
-   
       const postData = {
-        title:preview.title,
+        title,
         description,
         imageUrl,
         tags,
       };
 
-    
       const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      // Handle response
+  
+      addPost(response.data);
+
       console.log('Post published successfully:', response.data);
       setPublish(false); 
     } catch (error) {
       console.error('Error publishing post:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -61,7 +50,6 @@ const Preview = () => {
           className="absolute right-[1rem] md:right-[5rem] top-[3rem] text-2xl cursor-pointer">
           <LiaTimesSolid />
         </span>
-        {/* preview the text  */}
         <div className="mt-[8rem] flex flex-col md:flex-row gap-10">
           <div className="flex-[1]">
             <h3>Story Preview</h3>
@@ -75,7 +63,6 @@ const Preview = () => {
             <input
               onChange={(e) => {
                 setImageUrl(URL.createObjectURL(e.target.files[0]));
-                setPreview({ ...preview, photo: e.target.files[0] });
               }}
               ref={imageRef}
               type="file"
@@ -86,11 +73,7 @@ const Preview = () => {
               placeholder="Title"
               className="outline-none w-full border-b border-gray-300 py-2"
               value={title}
-              onChange={(e) => {
-    const newTitle = e.target.value;
-    setPreview({ ...preview, title: newTitle });
-    setTitle(newTitle); // Update context title
-  }}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <ReactQuill
               theme="bubble"
