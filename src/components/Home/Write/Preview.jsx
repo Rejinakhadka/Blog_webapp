@@ -14,6 +14,12 @@ const Preview = () => {
     imageRef.current.click();
   };
 
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageUrl(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -24,17 +30,20 @@ const Preview = () => {
         tags,
       };
 
+      // Save data to local storage
+      localStorage.setItem('draftPost', JSON.stringify(postData));
+
       const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-  
+      // Update the global state
       addPost(response.data);
 
       console.log('Post published successfully:', response.data);
-      setPublish(false); 
+      setPublish(false);
     } catch (error) {
       console.error('Error publishing post:', error);
     } finally {
@@ -56,14 +65,13 @@ const Preview = () => {
             <div
               style={{ backgroundImage: `url(${imageUrl})` }}
               onClick={handleClick}
+              onChange={setImageUrl}
               className="w-full h-[200px] object-cover bg-gray-100 my-3 grid 
                 place-items-center cursor-pointer bg-cover bg-no-repeat ">
               {!imageUrl && "Add Image"}
             </div>
             <input
-              onChange={(e) => {
-                setImageUrl(URL.createObjectURL(e.target.files[0]));
-              }}
+              onChange={handleFileChange}
               ref={imageRef}
               type="file"
               hidden
@@ -91,7 +99,7 @@ const Preview = () => {
           <div className="flex-[1] flex flex-col gap-4 mb-5 md:mb-0">
             <h3 className="text-2xl">
               Publishing to:
-              <span className="font-bold capitalize">Milad Tech</span>
+              <span className="font-bold capitalize">Rejina</span>
             </h3>
             <p>
               Add or change topics up to 5 so readers know what your story is

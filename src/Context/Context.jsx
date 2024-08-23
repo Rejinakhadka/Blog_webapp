@@ -16,28 +16,31 @@ const Context = ({ children }) => {
   const [description, setDescription] = useState("");
   const [publish, setPublish] = useState(false);
   const [tags, setTags] = useState([]);
-  const [imageUrl, setImageUrl] = useState(""); // Added to context
+  const [imageUrl, setImageUrl] = useState("");
   const [postData, setPostData] = useState([]);
 
-  const { data, loading: postLoading } = useFetch("posts");
+  const { data, loading: postLoading } = useFetch(""); // Consider using a URL or handle this case
 
   useEffect(() => {
-    const mockUsers = [
-      { id: 1, name: "John Doe" },
-      { id: 2, name: "Jane Doe" },
-    ];
-    setAllUsers(mockUsers);
-    setLoading(false);
+    // Load post data from local storage
+    const storedPostData = localStorage.getItem('draftPost');
+    if (storedPostData) {
+      setPostData([JSON.parse(storedPostData)]);
+    }
+    setLoading(false); // Ensure loading is set to false when data is loaded
   }, []);
 
   useEffect(() => {
-    if (data) {
-      setPostData(data);
+    // Save post data to local storage whenever it changes
+    if (postData.length > 0) {
+      localStorage.setItem('draftPost', JSON.stringify(postData[0]));
     }
-  }, [data]);
+  }, [postData]);
 
   const addPost = (newPost) => {
-    setPostData((prevPosts) => [newPost, ...prevPosts]);
+    const updatedPostData = [newPost, ...postData];
+    setPostData(updatedPostData);
+    localStorage.setItem('draftPost', JSON.stringify(newPost));
   };
 
   return (
@@ -62,8 +65,8 @@ const Context = ({ children }) => {
         postLoading,
         authModel,
         setAuthModel,
-        imageUrl,  // Provided in context
-        setImageUrl, // Provided in context
+        imageUrl,
+        setImageUrl,
         tags,
         setTags,
         addPost,

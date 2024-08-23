@@ -40,12 +40,12 @@ export const nav = [
   
   export const recommendedPosts = [
     {
-      postId: 1,
+      id: 1,
       user: "Tara Haelle",
       title:
         "We’re starting to understand more of what causes long COVID brain fog",
       subtitle: "Do this instead",
-      desc: `Not only did a new study identify two blood proteins linked to cognitive difficulties a year 
+      description: `Not only did a new study identify two blood proteins linked to cognitive difficulties a year 
       after COVID-19 infection, but the What is Lorem Ipsum?
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
       industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
@@ -75,18 +75,18 @@ export const nav = [
       in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.`,
       date: `Sep 13`,
       readTime: "7 min read",
-      postImg:
+      imageUrl:
         "https://miro.medium.com/v2/resize:fill:300:201/1*6nZUT6CkYE1frUF8eAVphw.jpeg",
       userImg:
         "https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/142819271/original/09dafa4104fa6aeca4e62f33326be4933ae7ccac/create-cartoon-profile-picture-abd7.jpg",
     },
     {
-      postId: 2,
+      id: 2,
       user: "Tara Haelle",
       title:
         "We’re starting to understand more of what causes long COVID brain fog",
       subtitle: "Do this instead",
-      desc: `Not only did a new study identify two blood proteins linked to cognitive difficulties a year 
+     description: `Not only did a new study identify two blood proteins linked to cognitive difficulties a year 
       after COVID-19 infection, but the What is Lorem Ipsum?
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
       industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
@@ -116,7 +116,7 @@ export const nav = [
       in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.`,
       date: `Sep 13`,
       readTime: "7 min read",
-      postImg:
+      imageUrl:
         "https://miro.medium.com/v2/resize:fill:300:201/1*6nZUT6CkYE1frUF8eAVphw.jpeg",
       userImg:
         "https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/142819271/original/09dafa4104fa6aeca4e62f33326be4933ae7ccac/create-cartoon-profile-picture-abd7.jpg",

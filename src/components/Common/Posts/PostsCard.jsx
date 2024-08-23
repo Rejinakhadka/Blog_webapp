@@ -1,9 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-const PostsCard = ({ post }) => {
-  const { title, description, imageUrl, id, user } = post; // Updated property names
 
-  console.log(post, "Post data in PostsCard");
+const PostsCard = ({ post }) => {
+  const { title, description, imageUrl, user, id } = post;
 
   const navigate = useNavigate();
 
