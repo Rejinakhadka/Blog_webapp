@@ -26,6 +26,8 @@ const SinglePost = () => {
     }
   }, [postId, postData]);
 
+  console.log(postData,"55")
+
   // If there's an error, show the error message
   if (error) return <div>Error: {error}</div>;
   
@@ -33,22 +35,24 @@ const SinglePost = () => {
   if (loading) return <Loading />;
 
   // Destructure post properties after ensuring post is defined
-  const { title, description, imageUrl, userImg, user, date } = post;
+  const { title, description, imageUrl, userImg, user, date, codeBlocks } = post || {};
 
   return (
     <section className="w-[90%] md:w-[80%] lg:w-[60%] mx-auto py-[3rem]">
       <h2 className="text-4xl font-extrabold capitalize">{title}</h2>
       <div className="flex items-center gap-2 py-[2rem]">
-        {/* <img
+        {/* Uncomment if needed
+        <img
           onClick={() => navigate(`/profile/${userImg}`)}
           className="w-[3rem] h-[3rem] object-cover rounded-full cursor-pointer"
           src={userImg}
           alt="user-img"
-        /> */}
-        {/* <div>
+        />
+        <div>
           <p className="font-medium text-lg">{user}</p>
           <p className="text-sm text-gray-600">{new Date(date).toLocaleDateString()}</p>
-        </div> */}
+        </div>
+        */}
       </div>
       <div className="mt-[3rem]">
         {imageUrl && (
@@ -62,6 +66,16 @@ const SinglePost = () => {
           className="mt-6"
           dangerouslySetInnerHTML={{ __html: description }}
         />
+        {/* Render code blocks */}
+        {codeBlocks && codeBlocks.length > 0 && (
+          <div className="mt-6">
+            {codeBlocks.map((code, index) => (
+              <pre key={index} className="my-2 p-2 border border-gray-300 rounded bg-gray-100">
+                <code>{code}</code>
+              </pre>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const PostsCard = ({ post }) => {
-  const { title, description, imageUrl, user, id } = post;
+  const { title, description, imageUrl, user, id,codeBlocks } = post;
 
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const PostsCard = ({ post }) => {
           <div className="flex-[1]">
             <img
               src={imageUrl}
-              alt="Post Image"
+              
               className="w-[53rem] h-[8rem] object-cover"
             />
           </div>

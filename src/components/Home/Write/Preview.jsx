@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Blog } from "../../../Context/Context";
 
 const Preview = () => {
-  const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, setImageUrl, tags, setTags } = Blog();
+  const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, setImageUrl, tags, setTags, codeBlocks } = Blog();
   const imageRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
@@ -28,6 +28,7 @@ const Preview = () => {
         description,
         imageUrl,
         tags,
+        codeBlocks, // Include codeBlocks here
       };
 
       // Save data to local storage
@@ -65,7 +66,6 @@ const Preview = () => {
             <div
               style={{ backgroundImage: `url(${imageUrl})` }}
               onClick={handleClick}
-              onChange={setImageUrl}
               className="w-full h-[200px] object-cover bg-gray-100 my-3 grid 
                 place-items-center cursor-pointer bg-cover bg-no-repeat ">
               {!imageUrl && "Add Image"}
@@ -113,6 +113,14 @@ const Preview = () => {
             </button>
           </div>
         </div>
+      </div>
+      {/* Hidden code blocks section */}
+      <div style={{ display: 'none' }}>
+        {codeBlocks.map((code, index) => (
+          <pre key={index} className="my-2 p-2 border border-gray-300 rounded">
+            <code>{code}</code>
+          </pre>
+        ))}
       </div>
     </section>
   );

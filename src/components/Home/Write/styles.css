@@ -1,56 +1,22 @@
-
-.ql-container.ql-bubble .ql-editor:focus-visible {
-    outline: none;
-  }
-  
-
-  /* General Styles */
-.WriteContainer {
-  font-family: sans-serif;
-  text-align: center;
-  display: block;
-}
-
-/* Title Input Styles */
-.TitleInput {
-  text-align: center;
-  font-size: 2rem;
-  outline: none;
-  width: 60%;
-  margin: 2rem auto;
-  display: block;
-}
-
-/* Editor Wrapper Styles */
-.EditorWrapper {
+/* Hide the border and padding around the Jodit editor */
+.jodit_wysiwyg {
   border: none !important;
-  width: 60% !important;
-  margin-top: 1rem !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  outline: none !important;
+  padding: 0 !important;
 }
 
-/* Override default Draft.js styles */
-.Draftail-Toolbar {
-  background: transparent !important;
+/* Hide the default Jodit toolbar */
+.jodit_toolbar {
+  display: none !important;
+}
+
+/* Ensure the editor only has text styles */
+.jodit {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Style for the editor container */
+.jodit_container {
   border: none !important;
-}
-
-/* Override default Draft.js styles */
-.Draftail-Editor {
-  border: none !important;
-  width: 100% !important;
-  margin-top: 100px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-/* Override default Draft.js content styles */
-.public-DraftEditor-content {
-  font-family: Georgia, "Times New Roman", Times, serif !important;
-}
-
-/* Override default Draft.js placeholder styles */
-.public-DraftEditorPlaceholder-inner {
-  font-family: Georgia, "Times New Roman", Times, serif !important;
 }

@@ -16,7 +16,8 @@ const Context = ({ children }) => {
   const [description, setDescription] = useState("");
   const [publish, setPublish] = useState(false);
   const [tags, setTags] = useState([]);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState([]);
+  const [codeBlocks, setCodeBlocks] = useState([]); // Added codeBlocks state
   const [postData, setPostData] = useState([]);
 
   const { data, loading: postLoading } = useFetch(""); // Consider using a URL or handle this case
@@ -43,6 +44,10 @@ const Context = ({ children }) => {
     localStorage.setItem('draftPost', JSON.stringify(newPost));
   };
 
+  const addCodeBlock = (code) => {
+    setCodeBlocks([...codeBlocks, code]);
+  };
+
   return (
     <BlogContext.Provider
       value={{
@@ -67,6 +72,8 @@ const Context = ({ children }) => {
         setAuthModel,
         imageUrl,
         setImageUrl,
+        codeBlocks, // Provided codeBlocks state
+        addCodeBlock, // Provided addCodeBlock function
         tags,
         setTags,
         addPost,
