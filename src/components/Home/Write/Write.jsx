@@ -9,20 +9,17 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism'; 
 
 const Write = () => {
-    const { title, setTitle, publish, setDescription, description, imageUrl, setImageUrl } = Blog();
+    const { title, setTitle, publish, setDescription, description, imageUrl, setImageUrl, codeBlocks, setCodeBlocks } = Blog();
     const [editorHtml, setEditorHtml] = useState(description);
     const [showMenu, setShowMenu] = useState(false);
     const [showCodeBlockInput, setShowCodeBlockInput] = useState(false);
-    const [codeBlock, setCodeBlock] = useState("");
-    const [selectedIndex, setSelectedIndex] = useState(null);
-    const [isImageSelected, setIsImageSelected] = useState(false);
-    const [codeBlocks, setCodeBlocks] = useState([]);
+    const [currentCodeBlock, setCurrentCodeBlock] = useState('');
 
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === "Backspace") {
                 setImageUrl([]);
-                setCodeBlock("");
+                setCodeBlocks([]);
             }
         };
 
@@ -31,7 +28,7 @@ const Write = () => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [setImageUrl]);
+    }, [setImageUrl, setCodeBlocks]);
 
     const handleChange = (html) => {
         setEditorHtml(html);
@@ -43,23 +40,17 @@ const Write = () => {
     };
 
     const handleFileChange = (e) => {
-      const files = Array.from(e.target.files);
-      const newImages = files.map(file => URL.createObjectURL(file));
-      setImageUrl(prevImages => [...prevImages, ...newImages]); 
-  };
-
-    const handleCodeBlock = () => {
-        setCodeBlocks([...codeBlocks, codeBlock]);
-        setCodeBlock("");
-        setShowCodeBlockInput(false);
+        const files = Array.from(e.target.files);
+        const newImages = files.map(file => URL.createObjectURL(file));
+        setImageUrl(prevImages => [...prevImages, ...newImages]); 
     };
 
-    const handleCodeBlockSelection = (index) => {
-        setSelectedIndex(index);
-    };
-
-    const handleImageSelection = () => {
-        setIsImageSelected(!isImageSelected);
+    const handleCodeBlockAdd = () => {
+        if (currentCodeBlock.trim()) {
+            setCodeBlocks(prevBlocks => [...prevBlocks, currentCodeBlock]);
+            setCurrentCodeBlock('');
+            setShowCodeBlockInput(false);
+        }
     };
 
     return (
@@ -82,9 +73,9 @@ const Write = () => {
                     placeholder="Tell Your Story..."
                 />
 
-<div className="absolute bottom-1 left-[-50px] z-50 cursor-pointer text-4xl "   onClick={() => setShowMenu(!showMenu)}>
-      {showMenu ? <BsXCircle /> : <BsPlusCircle />}
-      </div>
+                <div className="absolute bottom-1 left-[-50px] z-50 cursor-pointer text-4xl" onClick={() => setShowMenu(!showMenu)}>
+                    {showMenu ? <BsXCircle /> : <BsPlusCircle />}
+                </div>
 
                 {showMenu && (
                     <div className="absolute bottom-1 left-0 bg-white border-2 border-green-500 p-2 flex space-x-2 rounded-lg shadow-lg z-50">
@@ -109,15 +100,12 @@ const Write = () => {
                     style={{ display: 'none' }}
                 />
 
-               
-
                 <div className="my-5">
-                {imageUrl.length > 0 &&
+                    {imageUrl.length > 0 &&
                         imageUrl.map((image, index) => (
                             <figure
                                 key={index}
-                                className={`relative my-3 ${isImageSelected ? 'border-4 border-green-500' : ''}`}
-                                onClick={() => handleImageSelection(index)}
+                                className="relative my-3"
                             >
                                 <img
                                     src={image}
@@ -132,30 +120,29 @@ const Write = () => {
                         ))
                     }
 
-
                     {showCodeBlockInput && (
-                    <div className="my-2 z-50">
-                        <MonacoEditor
-                            height="200px"
-                            language="javascript"
-                            value={codeBlock}
-                            onChange={(value) => setCodeBlock(value || '')}
-                            theme="vs-dark"
-                        />
-                        <button
-                            onClick={handleCodeBlock}
-                            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
-                        >
-                            Add Code Block
-                        </button>
-                    </div>
-                )}
+                        <div className="my-2 z-50">
+                            <MonacoEditor
+                                height="200px"
+                                language="javascript"
+                                value={currentCodeBlock}
+                                onChange={(value) => setCurrentCodeBlock(value || '')}
+                                theme="vs-dark"
+                            />
+                            <button
+                                onClick={handleCodeBlockAdd}
+                                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+                            >
+                                Add Code Block
+                            </button>
+                        </div>
+                    )}
 
                     {codeBlocks.length > 0 &&
                         codeBlocks.map((code, index) => (
                             <div key={index} className="my-2 p-2 border border-gray-300 rounded">
                                 <SyntaxHighlighter
-                                    language="jsx" 
+                                    language="jsx"
                                     style={solarizedlight}
                                     showLineNumbers
                                     wrapLines
@@ -163,7 +150,8 @@ const Write = () => {
                                     {code}
                                 </SyntaxHighlighter>
                             </div>
-                        ))}
+                        ))
+                    }
                 </div>
 
                 <div className={`${publish ? "visible opacity-100" : "invisible opacity-0"} transition-opacity duration-200`}>
@@ -181,8 +169,7 @@ Write.modules = {
         ['bold', 'italic', 'underline'],
         [{ 'color': [] }, { 'background': [] }],
         [{ 'align': [] }],
-     
-        ['clean'] 
+        ['clean']
     ],
 };
 

@@ -28,10 +28,10 @@ const Preview = () => {
         description,
         imageUrl,
         tags,
-        codeBlocks, // Include codeBlocks here
+        codeBlocks, 
       };
 
-      // Save data to local storage
+
       localStorage.setItem('draftPost', JSON.stringify(postData));
 
       const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData, {
@@ -40,7 +40,7 @@ const Preview = () => {
         },
       });
 
-      // Update the global state
+
       addPost(response.data);
 
       console.log('Post published successfully:', response.data);
@@ -114,7 +114,7 @@ const Preview = () => {
           </div>
         </div>
       </div>
-      {/* Hidden code blocks section */}
+
       <div style={{ display: 'none' }}>
         {codeBlocks.map((code, index) => (
           <pre key={index} className="my-2 p-2 border border-gray-300 rounded">
