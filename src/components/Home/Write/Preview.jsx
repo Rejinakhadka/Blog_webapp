@@ -7,18 +7,10 @@ import { Blog } from "../../../Context/Context";
 
 const Preview = () => {
   const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, setImageUrl, tags, setTags, codeBlocks } = Blog();
-  const imageRef = useRef(null);
+
   const [loading, setLoading] = useState(false);
 
-  const handleClick = () => {
-    imageRef.current.click();
-  };
 
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageUrl(URL.createObjectURL(e.target.files[0]));
-    }
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -31,15 +23,11 @@ const Preview = () => {
         codeBlocks, 
       };
 
-
-      localStorage.setItem('draftPost', JSON.stringify(postData));
-
       const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-
 
       addPost(response.data);
 
@@ -53,7 +41,7 @@ const Preview = () => {
   };
 
   return (
-    <section className="absolute inset-0 bg-white z-30">
+    <section className="absolute inset-0 bg-white z-30 p-8 px-60">
       <div className="size my-[2rem]">
         <span
           onClick={() => setPublish(false)}
@@ -65,17 +53,12 @@ const Preview = () => {
             <h3>Story Preview</h3>
             <div
               style={{ backgroundImage: `url(${imageUrl})` }}
-              onClick={handleClick}
+           
               className="w-full h-[200px] object-cover bg-gray-100 my-3 grid 
                 place-items-center cursor-pointer bg-cover bg-no-repeat ">
-              {!imageUrl && "Add Image"}
+               {!imageUrl && <span className=" text-center text-[16px] text-gray-500">Include a high-quality image in your story to make it more inviting to readers.</span>}            
             </div>
-            <input
-              onChange={handleFileChange}
-              ref={imageRef}
-              type="file"
-              hidden
-            />
+           
             <input
               type="text"
               placeholder="Title"
@@ -105,7 +88,7 @@ const Preview = () => {
               Add or change topics up to 5 so readers know what your story is
               about
             </p>
-            <TagsInput value={tags} onChange={setTags} />
+             <TagsInput value={tags} onChange={setTags} /> 
             <button
               onClick={handleSubmit}
               className="btn !bg-green-800 !w-fit !text-white !rounded-full">
