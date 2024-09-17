@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Blog } from "../../../Context/Context";
@@ -24,12 +24,12 @@ const Write = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCodeBlockInput, setShowCodeBlockInput] = useState(false);
   const [currentCodeBlock, setCurrentCodeBlock] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null); // Track selected image
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Backspace") {
-        setImageUrl([]);
-        setCodeBlocks([]);
+        setImageUrl("");
       }
     };
 
@@ -38,7 +38,7 @@ const Write = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setImageUrl, setCodeBlocks]);
+  }, [setImageUrl]);
 
   const handleChange = (html) => {
     setEditorHtml(html);
@@ -49,10 +49,13 @@ const Write = () => {
     document.getElementById("imageUploadInput").click();
   };
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setImageUrl((prevImages) => [...prevImages, ...newImages]);
+  const imgFilehandler = (e) => {
+    if (e.target.files.length !== 0) {
+      setImageUrl((imgfile) => [
+        ...imgfile,
+        URL.createObjectURL(e.target.files[0]),
+      ]);
+    }
   };
 
   const handleCodeBlockAdd = () => {
@@ -61,6 +64,10 @@ const Write = () => {
       setCurrentCodeBlock("");
       setShowCodeBlockInput(false);
     }
+  };
+
+  const handleImageSelect = (imageUrl) => {
+    setSelectedImage(imageUrl === selectedImage ? null : imageUrl);
   };
 
   return (
@@ -115,20 +122,26 @@ const Write = () => {
               type="file"
               id="imageUploadInput"
               accept="image/*"
-              onChange={handleFileChange}
+              onChange={imgFilehandler}
               style={{ display: "none" }}
             />
 
             <div className="my-5">
-              {imageUrl.length > 0 &&
-                imageUrl.map((image, index) => (
-                  <figure key={index} className="relative my-3">
+              {imageUrl &&
+                imageUrl.map((url, index) => (
+                  <figure
+                    key={index}
+                    className="relative my-3 cursor-pointer"
+                    onClick={() => handleImageSelect(url)}
+                    style={{
+                      border: url === selectedImage ? "4px solid green" : "none",
+                    }}
+                  >
                     <img
-                      src={image}
-                      alt="Uploaded"
+                      src={url}
                       style={{
                         width: "100%",
-                        height: "100%",
+                        height: "auto",
                         objectFit: "cover",
                       }}
                     />

@@ -1,40 +1,39 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import ReactQuill from "react-quill";
 import TagsInput from "react-tagsinput";
-import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 import { Blog } from "../../../Context/Context";
+import { useNavigate } from "react-router-dom";
 
 const Preview = () => {
   const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, setImageUrl, tags, setTags, codeBlocks } = Blog();
-
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-
-
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setLoading(true);
     try {
       const postData = {
+        id: uuidv4(), 
         title,
         description,
         imageUrl,
         tags,
-        codeBlocks, 
+        codeBlocks,
       };
 
-      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', postData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const existingPosts = JSON.parse(localStorage.getItem('posts')) || [];
+      existingPosts.push(postData);
+      localStorage.setItem('posts', JSON.stringify(existingPosts));
 
-      addPost(response.data);
+      addPost(postData);
+      console.log('Post saved successfully:', postData);
 
-      console.log('Post published successfully:', response.data);
       setPublish(false);
+      navigate("/");
     } catch (error) {
-      console.error('Error publishing post:', error);
+      console.error('Error saving post:', error);
     } finally {
       setLoading(false);
     }
@@ -53,12 +52,10 @@ const Preview = () => {
             <h3>Story Preview</h3>
             <div
               style={{ backgroundImage: `url(${imageUrl})` }}
-           
               className="w-full h-[200px] object-cover bg-gray-100 my-3 grid 
-                place-items-center cursor-pointer bg-cover bg-no-repeat ">
-               {!imageUrl && <span className=" text-center text-[16px] text-gray-500">Include a high-quality image in your story to make it more inviting to readers.</span>}            
+                place-items-center cursor-pointer bg-cover bg-no-repeat">
+              {!imageUrl && <span className="text-center text-[16px] text-gray-500">Include a high-quality image in your story to make it more inviting to readers.</span>}
             </div>
-           
             <input
               type="text"
               placeholder="Title"
@@ -88,7 +85,7 @@ const Preview = () => {
               Add or change topics up to 5 so readers know what your story is
               about
             </p>
-             <TagsInput value={tags} onChange={setTags} /> 
+            <TagsInput value={tags} onChange={setTags} />
             <button
               onClick={handleSubmit}
               className="btn !bg-green-800 !w-fit !text-white !rounded-full">

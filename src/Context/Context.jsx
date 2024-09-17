@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, createContext } from "react";
 import Loading from "../components/Loading/Loading";
-import useFetch from "../components/hooks/useFetch";
+
 
 const BlogContext = createContext();
 
@@ -20,7 +20,7 @@ const Context = ({ children }) => {
   const [codeBlocks, setCodeBlocks] = useState([]); 
   const [postData, setPostData] = useState([]);
 
-  const { data, loading: postLoading } = useFetch(""); 
+
 
   useEffect(() => {
 
@@ -67,7 +67,7 @@ const Context = ({ children }) => {
         description,
         setDescription,
         postData,
-        postLoading,
+    
         authModel,
         setAuthModel,
         imageUrl,
@@ -80,7 +80,7 @@ const Context = ({ children }) => {
         addPost,
       }}
     >
-      {loading ? <Loading /> : children}
+      {children}
     </BlogContext.Provider>
   );
 };
