@@ -72,14 +72,14 @@ const Preview = () => {
             />
             <p className="text-gray-500 pt-4 text-sm">
               <span className="font-bold">Note:</span> Changes here will affect
-              how your story appears in public places like Medium’s homepage and
+              how your story appears in public places like ’s homepage and
               in subscribers’ inboxes — not the contents of the story itself.
             </p>
           </div>
           <div className="flex-[1] flex flex-col gap-4 mb-5 md:mb-0">
             <h3 className="text-2xl">
               Publishing to:
-              <span className="font-bold capitalize">Rejina</span>
+              <span className="font-bold capitalize">ED ACADIA</span>
             </h3>
             <p>
               Add or change topics up to 5 so readers know what your story is

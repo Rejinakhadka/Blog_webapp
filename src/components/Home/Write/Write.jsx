@@ -24,7 +24,7 @@ const Write = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showCodeBlockInput, setShowCodeBlockInput] = useState(false);
   const [currentCodeBlock, setCurrentCodeBlock] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null); // Track selected image
+  const [selectedImage, setSelectedImage] = useState(null); 
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -88,7 +88,7 @@ const Write = () => {
               onChange={handleChange}
               modules={Write.modules}
               formats={Write.formats}
-              className="my-5"
+        
               placeholder="Tell Your Story..."
             />
 

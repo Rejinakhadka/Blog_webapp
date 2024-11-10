@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BsMedium } from "react-icons/bs";
+
 import { CiSearch } from "react-icons/ci";
 import { LiaEditSolid } from "react-icons/lia";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -26,7 +26,7 @@ const HomeHeader = () => {
         <div className="size h-[60px] flex items-center justify-between w-[95%] md:w-[95%] mx-auto">
           <div className="flex items-center gap-3">
             <Link to={"/"}>
-              <span className="text-3xl">Medium</span>
+              <span className="text-3xl">ED ACADIA</span>
             </Link>
             <Search modal={searchModal} setModal={setSearchModal} />
           </div>
@@ -61,7 +61,7 @@ const HomeHeader = () => {
       </header>
 
       <section className="gradient-banner">
-        <h1 className="font-medium">Be a Part of Medium</h1>
+        <h1 className="font-medium"></h1>
       </section>
     </>
   );

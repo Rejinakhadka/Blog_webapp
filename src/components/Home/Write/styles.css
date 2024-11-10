@@ -1,22 +1,10 @@
-/* Hide the border and padding around the Jodit editor */
-.jodit_wysiwyg {
-  border: none !important;
+
+.ql-snow *:focus-visible,
+.ql-container *:focus-visible,
+.ql-editor *:focus-visible,
+.ql-snow .ql-editor:focus,
+.ql-snow .ql-editor:focus-visible,
+.ql-toolbar .ql-snow *:focus-visible {
   outline: none !important;
-  padding: 0 !important;
-}
-
-/* Hide the default Jodit toolbar */
-.jodit_toolbar {
-  display: none !important;
-}
-
-/* Ensure the editor only has text styles */
-.jodit {
-  background-color: transparent !important;
   box-shadow: none !important;
-}
-
-/* Style for the editor container */
-.jodit_container {
-  border: none !important;
 }
