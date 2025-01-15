@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { LiaTimesSolid } from "react-icons/lia";
 import ReactQuill from "react-quill";
 import TagsInput from "react-tagsinput";
@@ -7,7 +7,7 @@ import { Blog } from "../../../Context/Context";
 import { useNavigate } from "react-router-dom";
 
 const Preview = () => {
-  const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, setImageUrl, tags, setTags, codeBlocks } = Blog();
+  const { setPublish, title, setTitle, description, setDescription, addPost, imageUrl, tags, setTags, codeBlocks } = Blog();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
