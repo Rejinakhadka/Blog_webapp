@@ -19,10 +19,7 @@ export const nav = [
     "Programming",
     "Sport",
     "Knowledge",
-    "Self Improvement",
-    "Relationships",
-    "Machine Learning",
-    "Politics",
+
   ];
   
   export const discoverActions = [
