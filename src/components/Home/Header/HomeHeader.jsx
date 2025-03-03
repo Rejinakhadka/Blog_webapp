@@ -26,7 +26,7 @@ const HomeHeader = () => {
         <div className="size h-[60px] flex items-center justify-between w-[95%] md:w-[95%] mx-auto">
           <div className="flex items-center gap-3">
             <Link to={"/"}>
-              <span className="text-3xl">ED ACADIA</span>
+              <span className="text-3xl">Medium</span>
             </Link>
             <Search modal={searchModal} setModal={setSearchModal} />
           </div>
